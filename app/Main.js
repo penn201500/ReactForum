@@ -1,15 +1,19 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
+import Header from "./components/Header"
+import HomeGuest from "./components/HomeGuest"
+import Footer from "./components/Footer"
 
 const root = createRoot(document.querySelector("#app"))
 
-function ExampleComponent() {
+function Main() {
     return (
-        <div>
-            <h1>Hello World</h1>
-            <p>This is our app!</p>
-        </div>
+        <>
+            <Header />
+            <HomeGuest />
+            <Footer />
+        </>
     )
 }
 
-root.render(<ExampleComponent />)
+root.render(<Main />)
