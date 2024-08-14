@@ -1,7 +1,11 @@
-import React from "react"
-import Container from './Container';
+import React, { useEffect } from "react"
+import Container from "./Container"
 
 function About() {
+    useEffect(() => {
+        document.title = "About Us | ComplexApp"
+        window.scrollTo(0, 0)
+    }, [])
     return (
         <Container>
             <h2>About Us</h2>
