@@ -1,13 +1,9 @@
 import React, { useEffect } from "react"
-import Container from "./Container"
+import Page from "./Page"
 
 function About() {
-    useEffect(() => {
-        document.title = "About Us | ComplexApp"
-        window.scrollTo(0, 0)
-    }, [])
     return (
-        <Container>
+        <Page title="About Us">
             <h2>About Us</h2>
             <p className="lead text-muted">Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis dolorum labore quisquam vel id dicta fuga! Ducimus, quo. Dolore commodi aliquid error veritatis consequuntur, excepturi cumque fuga eum incidunt doloremque?</p>
             <p>
@@ -15,7 +11,7 @@ function About() {
                 eum, est soluta ducimus ratione et impedit sapiente, nihil, atque dignissimos adipisci? Totam atque officia quis voluptates sed veniam?
             </p>
             <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita voluptates quisquam possimus tenetur, dicta enim rerum quis, quaerat id nobis provident quo dolorum sapiente temporibus facere non repellendus consequatur cupiditate!</p>
-        </Container>
+        </Page>
     )
 }
 
