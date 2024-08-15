@@ -1,17 +1,21 @@
-import React from "react"
+import React, { useState } from "react"
 import Page from "./Page"
 import Axios from "axios"
 
 function HomeGuest() {
+    const [username, setUsername] = useState()
+    const [email, setEmail] = useState()
+    const [password, setPassword] = useState()
+
     async function handleSubmit(e) {
         e.preventDefault()
         try {
             await Axios.post("http://localhost:8080/register", {
-                username: "test",
-                email: "test@t.com",
-                password: "test1234567890",
+                username,
+                email,
+                password,
             })
-            console.log("User was created.");
+            console.log("User was created.")
         } catch (error) {
             console.log("There was an error." + error)
         }
@@ -34,6 +38,7 @@ function HomeGuest() {
                                 <small>Username</small>
                             </label>
                             <input
+                                onChange={e => setUsername(e.target.value)}
                                 id="username-register"
                                 name="username"
                                 className="form-control"
@@ -49,6 +54,7 @@ function HomeGuest() {
                                 <small>Email</small>
                             </label>
                             <input
+                                onChange={e => setEmail(e.target.value)}
                                 id="email-register"
                                 name="email"
                                 className="form-control"
@@ -64,6 +70,7 @@ function HomeGuest() {
                                 <small>Password</small>
                             </label>
                             <input
+                                onChange={e => setPassword(e.target.value)}
                                 id="password-register"
                                 name="password"
                                 className="form-control"
