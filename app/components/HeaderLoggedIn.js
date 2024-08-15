@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 
-function HeaderLoggedIn() {
+function HeaderLoggedIn(props) {
     return (
         <div className="flex-row my-3 my-md-0">
             <a
@@ -25,7 +25,11 @@ function HeaderLoggedIn() {
                 href="/create-post">
                 Create Post
             </a>
-            <button className="btn btn-sm btn-secondary">Sign Out</button>
+            <button
+                onClick={() => props.setLoggedIn(false)}
+                className="btn btn-sm btn-secondary">
+                Sign Out
+            </button>
         </div>
     )
 }
