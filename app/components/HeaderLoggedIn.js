@@ -5,6 +5,7 @@ function HeaderLoggedIn(props) {
         props.setLoggedIn(false)
         localStorage.removeItem("appToken")
         localStorage.removeItem("appUser")
+        localStorage.removeItem("appAvatar")
     }
     return (
         <div className="flex-row my-3 my-md-0">
@@ -22,7 +23,7 @@ function HeaderLoggedIn(props) {
                 className="mr-2">
                 <img
                     className="small-header-avatar"
-                    src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128"
+                    src={localStorage.getItem("appAvatar")}
                 />
             </a>
             <a
