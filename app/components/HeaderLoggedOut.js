@@ -12,7 +12,6 @@ function HeaderLoggedOut(props) {
                 if (response.data) {
                     localStorage.setItem("appToken", response.data.token)
                     localStorage.setItem("appUser", response.data.username)
-                    localStorage.setItem("appAvatar", response.data.avatar)
                     props.setLoggedIn(true)
                 } else {
                     console.log("Incorrect username / password.")
