@@ -8,7 +8,7 @@ function HeaderLoggedOut(props) {
     function handleSubmit(e) {
         e.preventDefault()
         try {
-            Axios.post("http://localhost:8080/login", { username, password }).then(response => {
+            Axios.post("/login", { username, password }).then(response => {
                 if (response.data) {
                     localStorage.setItem("appToken", response.data.token)
                     localStorage.setItem("appUser", response.data.username)

@@ -9,7 +9,7 @@ function CreatePost() {
     function handleSubmit(e) {
         e.preventDefault()
         try {
-            Axios.post("http://localhost:8080/create-post", {
+            Axios.post("/create-post", {
                 title,
                 body,
                 token: localStorage.getItem("appToken"),
