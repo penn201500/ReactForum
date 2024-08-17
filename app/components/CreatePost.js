@@ -1,10 +1,25 @@
 import React, { useEffect } from "react"
 import Page from "./Page"
+import Axios from "axios"
 
 function CreatePost() {
+    function handleSubmit(e) {
+        e.preventDefault()
+        try {
+            Axios.post("http://localhost:8080/create-post", {
+                title: e.target.title.value,
+                body: e.target.body.value,
+                token: localStorage.getItem("appToken"),
+            }).then(response => {
+                console.log("The post was created.")
+            })
+        } catch (error) {
+            console.log("There was an error." + error)
+        }
+    }
     return (
         <Page title="Create New Post">
-            <form>
+            <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label
                         htmlFor="post-title"
