@@ -9,6 +9,7 @@ import About from "./components/About"
 import Terms from "./components/Terms"
 import Home from "./components/Home"
 import CreatePost from "./components/CreatePost"
+import ViewSinglePost from "./components/ViewSinglePost"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -39,6 +40,10 @@ function Main() {
                 <Route
                     path="/create-post"
                     element={<CreatePost />}
+                />
+                <Route
+                    path="/post/:id"
+                    element={<ViewSinglePost />}
                 />
             </Routes>
             <Footer />
