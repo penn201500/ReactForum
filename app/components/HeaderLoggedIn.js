@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { Link } from "react-router-dom"
 
 function HeaderLoggedIn(props) {
     function handleLogout() {
@@ -25,11 +26,11 @@ function HeaderLoggedIn(props) {
                     src="https://www.gravatar.com/avatar"
                 />
             </a>
-            <a
+            <Link
                 className="btn btn-sm btn-success mr-2"
-                href="/create-post">
+                to="/create-post">
                 Create Post
-            </a>
+            </Link>
             <button
                 onClick={handleLogout}
                 className="btn btn-sm btn-secondary">

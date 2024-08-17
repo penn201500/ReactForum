@@ -7,6 +7,7 @@ import Footer from "./components/Footer"
 import About from "./components/About"
 import Terms from "./components/Terms"
 import Home from "./components/Home"
+import CreatePost from "./components/CreatePost"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -31,6 +32,10 @@ function Main() {
                 <Route
                     path="/terms"
                     element={<Terms />}
+                />
+                <Route
+                    path="/create-post"
+                    element={<CreatePost />}
                 />
             </Routes>
             <Footer />
