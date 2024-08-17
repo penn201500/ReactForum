@@ -7,24 +7,24 @@ function CreatePost() {
             <form>
                 <div className="form-group">
                     <label
-                        for="post-title"
+                        htmlFor="post-title"
                         className="text-muted mb-1">
                         <small>Title</small>
                     </label>
                     <input
-                        autofocus
+                        autoFocus
                         name="title"
                         id="post-title"
                         className="form-control form-control-lg form-control-title"
                         type="text"
                         placeholder=""
-                        autocomplete="off"
+                        autoComplete="off"
                     />
                 </div>
 
                 <div className="form-group">
                     <label
-                        for="post-body"
+                        htmlFor="post-body"
                         className="text-muted mb-1 d-block">
                         <small>Body Content</small>
                     </label>
