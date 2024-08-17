@@ -1,14 +1,17 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import Page from "./Page"
 import Axios from "axios"
 
 function CreatePost() {
+    const [title, setTitle] = useState()
+    const [body, setBody] = useState()
+
     function handleSubmit(e) {
         e.preventDefault()
         try {
             Axios.post("http://localhost:8080/create-post", {
-                title: e.target.title.value,
-                body: e.target.body.value,
+                title,
+                body,
                 token: localStorage.getItem("appToken"),
             }).then(response => {
                 console.log("The post was created.")
@@ -27,6 +30,7 @@ function CreatePost() {
                         <small>Title</small>
                     </label>
                     <input
+                        onChange={e => setTitle(e.target.value)}
                         autoFocus
                         name="title"
                         id="post-title"
@@ -44,6 +48,7 @@ function CreatePost() {
                         <small>Body Content</small>
                     </label>
                     <textarea
+                        onChange={e => setBody(e.target.value)}
                         name="body"
                         id="post-body"
                         className="body-content tall-textarea form-control"
