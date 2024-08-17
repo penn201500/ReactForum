@@ -10,6 +10,7 @@ import Terms from "./components/Terms"
 import Home from "./components/Home"
 import CreatePost from "./components/CreatePost"
 import ViewSinglePost from "./components/ViewSinglePost"
+import FlashMessages from "./components/FlashMessages"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -17,9 +18,15 @@ Axios.defaults.baseURL = "http://localhost:8080"
 
 function Main() {
     const [loggedIn, setLoggedIn] = useState(localStorage.getItem("appToken") ? true : false)
+    const [flashMessages, setFlashMessages] = useState([])
+
+    function addFlashMessage(msg) {
+        setFlashMessages(prev => prev.concat(msg))
+    }
 
     return (
         <BrowserRouter>
+            <FlashMessages messages={flashMessages} />
             <Header
                 loggedIn={loggedIn}
                 setLoggedIn={setLoggedIn}
@@ -39,7 +46,7 @@ function Main() {
                 />
                 <Route
                     path="/create-post"
-                    element={<CreatePost />}
+                    element={<CreatePost addFlashMessage={addFlashMessage} />}
                 />
                 <Route
                     path="/post/:id"
