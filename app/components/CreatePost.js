@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useContext } from "react"
 import { useNavigate } from "react-router-dom"
 import Page from "./Page"
 import Axios from "axios"
+import CommonContext from "../CommonContext"
 
 function CreatePost(props) {
     const [title, setTitle] = useState()
     const [body, setBody] = useState()
     const navigate = useNavigate()
+    const addFlashMessage = useContext(CommonContext)
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -16,7 +18,7 @@ function CreatePost(props) {
                 body,
                 token: localStorage.getItem("appToken"),
             })
-            props.addFlashMessage("Congrats, you created a post.")
+            addFlashMessage("Congrats, you created a post!")
             navigate(`/post/${response.data}`)
             console.log("The post was created.")
         } catch (error) {
