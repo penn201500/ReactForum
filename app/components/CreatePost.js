@@ -4,7 +4,7 @@ import Page from "./Page"
 import Axios from "axios"
 import CommonContext from "../CommonContext"
 
-function CreatePost(props) {
+function CreatePost() {
     const [title, setTitle] = useState()
     const [body, setBody] = useState()
     const navigate = useNavigate()
