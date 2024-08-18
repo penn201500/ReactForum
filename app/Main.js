@@ -26,12 +26,11 @@ function Main() {
     }
 
     return (
-        <CommonContext.Provider value={addFlashMessage}>
+        <CommonContext.Provider value={{addFlashMessage, setLoggedIn}}>
             <BrowserRouter>
                 <FlashMessages messages={flashMessages} />
                 <Header
                     loggedIn={loggedIn}
-                    setLoggedIn={setLoggedIn}
                 />
                 <Routes>
                     <Route

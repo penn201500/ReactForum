@@ -1,9 +1,11 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useContext } from "react"
 import { Link } from "react-router-dom"
+import CommonContext from "../CommonContext"
 
-function HeaderLoggedIn(props) {
+function HeaderLoggedIn() {
+    const { setLoggedIn } = useContext(CommonContext)
     function handleLogout() {
-        props.setLoggedIn(false)
+        setLoggedIn(false)
         localStorage.removeItem("appToken")
         localStorage.removeItem("appUser")
     }
