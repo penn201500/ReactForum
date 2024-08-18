@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from "react"
 import Axios from "axios"
-import CommonContext from "../CommonContext"
+import DispatchContext from "../DispatchContext"
 
 function HeaderLoggedOut() {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
-    const { setLoggedIn } = useContext(CommonContext)
+    const appDispatch = useContext(DispatchContext)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -14,7 +14,7 @@ function HeaderLoggedOut() {
                 if (response.data) {
                     localStorage.setItem("appToken", response.data.token)
                     localStorage.setItem("appUser", response.data.username)
-                    setLoggedIn(true)
+                    appDispatch({ type: "login" })
                 } else {
                     console.log("Incorrect username / password.")
                 }
