@@ -12,9 +12,7 @@ function HeaderLoggedOut() {
         try {
             Axios.post("/login", { username, password }).then(response => {
                 if (response.data) {
-                    localStorage.setItem("appToken", response.data.token)
-                    localStorage.setItem("appUser", response.data.username)
-                    appDispatch({ type: "login" })
+                    appDispatch({ type: "login", user: response.data })
                 } else {
                     console.log("Incorrect username / password.")
                 }

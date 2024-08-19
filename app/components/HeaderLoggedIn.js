@@ -6,8 +6,6 @@ function HeaderLoggedIn() {
     const appDispatch = useContext(DispatchContext)
     function handleLogout() {
         appDispatch({ type: "logout" })
-        localStorage.removeItem("appToken")
-        localStorage.removeItem("appUser")
     }
     return (
         <div className="flex-row my-3 my-md-0">
