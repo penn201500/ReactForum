@@ -1,9 +1,11 @@
 import React, { useEffect, useContext } from "react"
 import { Link } from "react-router-dom"
 import DispatchContext from "../DispatchContext"
+import StateContext from "../StateContext"
 
 function HeaderLoggedIn() {
     const appDispatch = useContext(DispatchContext)
+    const appState = useContext(StateContext)
     function handleLogout() {
         appDispatch({ type: "logout" })
     }
@@ -18,14 +20,14 @@ function HeaderLoggedIn() {
                 <i className="fas fa-comment"></i>
                 <span className="chat-count-badge text-white"> </span>
             </span>
-            <a
-                href="#"
+            <Link
+                to={`profile/${appState.user.username}`}
                 className="mr-2">
                 <img
                     className="small-header-avatar"
                     src="https://www.gravatar.com/avatar"
                 />
-            </a>
+            </Link>
             <Link
                 className="btn btn-sm btn-success mr-2"
                 to="/create-post">

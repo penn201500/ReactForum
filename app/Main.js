@@ -14,6 +14,7 @@ import ViewSinglePost from "./components/ViewSinglePost"
 import FlashMessages from "./components/FlashMessages"
 import StateContext from "./StateContext"
 import DispatchContext from "./DispatchContext"
+import Profile from "./components/Profile"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -80,6 +81,10 @@ function Main() {
                         <Route
                             path="/post/:id"
                             element={<ViewSinglePost />}
+                        />
+                        <Route
+                            path="/profile/:username/*"
+                            element={<Profile />}
                         />
                     </Routes>
                     <Footer />
