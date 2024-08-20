@@ -15,6 +15,7 @@ import FlashMessages from "./components/FlashMessages"
 import StateContext from "./StateContext"
 import DispatchContext from "./DispatchContext"
 import Profile from "./components/Profile"
+import EditPost from "./components/EditPost"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -85,6 +86,10 @@ function Main() {
                         <Route
                             path="/profile/:username/*"
                             element={<Profile />}
+                        />
+                        <Route
+                            path="/post/:id/edit"
+                            element={<EditPost />}
                         />
                     </Routes>
                     <Footer />
