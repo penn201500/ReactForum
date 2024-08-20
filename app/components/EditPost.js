@@ -41,7 +41,9 @@ function UpdatePost() {
                 draft.body.value = action.value
                 return
             case "submitRequest":
-                draft.sendCount++
+                if (!draft.title.hasErrors && !draft.body.hasErrors) {
+                    draft.sendCount++
+                }
                 return
             case "saveRequestStarted":
                 draft.isSaving = true
@@ -49,10 +51,10 @@ function UpdatePost() {
             case "saveRequestFinished":
                 draft.isSaving = false
                 return
-            case "titleBlur":
+            case "titleRules":
                 if (!action.value.trim()) {
-                    draft.title.hasErrors=true
-                    draft.title.message="You must provide a title."
+                    draft.title.hasErrors = true
+                    draft.title.message = "You must provide a title."
                 }
                 return
             default:
@@ -109,6 +111,7 @@ function UpdatePost() {
 
     function submitHandler(e) {
         e.preventDefault()
+        dispatch({ type: "titleRules", value: state.title.value })
         dispatch({ type: "submitRequest" })
     }
 
@@ -122,7 +125,7 @@ function UpdatePost() {
                         <small>Title</small>
                     </label>
                     <input
-                    onBlur={e=>dispatch({type:"titleBlur", value: e.target.value})}
+                        onBlur={e => dispatch({ type: "titleRules", value: e.target.value })}
                         onChange={e => dispatch({ type: "titleChange", value: e.target.value })}
                         value={state.title.value}
                         autoFocus
