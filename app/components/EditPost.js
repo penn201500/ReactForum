@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom"
 import Axios from "axios"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import StateContext from "../StateContext"
-import DispatchContext from '../DispatchContext';
+import DispatchContext from "../DispatchContext"
 
 function UpdatePost() {
     const appState = useContext(StateContext)
@@ -49,6 +49,12 @@ function UpdatePost() {
             case "saveRequestFinished":
                 draft.isSaving = false
                 return
+            case "titleBlur":
+                if (!action.value.trim()) {
+                    draft.title.hasErrors=true
+                    draft.title.message="You must provide a title."
+                }
+                return
             default:
                 return
         }
@@ -74,14 +80,14 @@ function UpdatePost() {
 
     useEffect(() => {
         if (state.sendCount) {
-            dispatch({type: "saveRequestStarted"})
+            dispatch({ type: "saveRequestStarted" })
             const ourRequest = Axios.CancelToken.source()
             async function fetchPost() {
                 try {
                     const response = await Axios.post(`/post/${state.id}/edit`, { title: state.title.value, body: state.body.value, token: appState.user.token }, { cancelToken: ourRequest.token })
                     console.log(response.data)
-                    dispatch({type: "saveRequestFinished"})
-                    appDispatch({type: "flashMessages", value: "Post was updated."})
+                    dispatch({ type: "saveRequestFinished" })
+                    appDispatch({ type: "flashMessages", value: "Post was updated." })
                 } catch (error) {
                     console.log("There was a problem." + error)
                 }
@@ -116,6 +122,7 @@ function UpdatePost() {
                         <small>Title</small>
                     </label>
                     <input
+                    onBlur={e=>dispatch({type:"titleBlur", value: e.target.value})}
                         onChange={e => dispatch({ type: "titleChange", value: e.target.value })}
                         value={state.title.value}
                         autoFocus
@@ -126,6 +133,7 @@ function UpdatePost() {
                         placeholder=""
                         autoComplete="off"
                     />
+                    {state.title.hasErrors && <div className="alert alert-danger small liveValidateMessage">{state.title.message}</div>}
                 </div>
 
                 <div className="form-group">
@@ -143,7 +151,11 @@ function UpdatePost() {
                         type="text"></textarea>
                 </div>
 
-                <button className="btn btn-primary" disabled={state.isSaving}>{state.isSaving ? "Saving..." : "Save Updates"}</button>
+                <button
+                    className="btn btn-primary"
+                    disabled={state.isSaving}>
+                    {state.isSaving ? "Saving..." : "Save Updates"}
+                </button>
             </form>
         </Page>
     )
