@@ -5,9 +5,11 @@ import { useParams } from "react-router-dom"
 import Axios from "axios"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import StateContext from "../StateContext"
+import DispatchContext from '../DispatchContext';
 
 function UpdatePost() {
     const appState = useContext(StateContext)
+    const appDispatch = useContext(DispatchContext)
     const originalState = {
         title: {
             value: "",
@@ -79,6 +81,7 @@ function UpdatePost() {
                     const response = await Axios.post(`/post/${state.id}/edit`, { title: state.title.value, body: state.body.value, token: appState.user.token }, { cancelToken: ourRequest.token })
                     console.log(response.data)
                     dispatch({type: "saveRequestFinished"})
+                    appDispatch({type: "flashMessages", value: "Post was updated."})
                 } catch (error) {
                     console.log("There was a problem." + error)
                 }
