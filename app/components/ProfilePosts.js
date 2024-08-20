@@ -8,6 +8,7 @@ function ProfilePosts() {
     const { username } = useParams()
 
     useEffect(() => {
+        console.log();
         async function fetchPosts() {
             try {
                 const response = await Axios.get(`/profile/${username}/posts`)
