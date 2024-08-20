@@ -3,6 +3,8 @@ import Page from "./Page"
 import Axios from "axios"
 import { useParams, Link } from "react-router-dom"
 import LoadingDotsIcon from "./LoadingDotsIcon"
+import ReactMarkdown from "react-markdown"
+import rehypeSanitize from "rehype-sanitize"
 
 function ViewSinglePost() {
     const [isLoading, setIsLoading] = useState(true)
@@ -36,6 +38,7 @@ function ViewSinglePost() {
 
     const date = new Date(post.createdDate)
     const dateFormatted = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+    const allowedElements = ["p", "strong", "em", "a", "ul", "ol", "li", "h1", "h2", "h3", "h4", "h5", "h6", "blockquote", "code"]
 
     return (
         <Page title={post.title}>
@@ -66,7 +69,12 @@ function ViewSinglePost() {
                 Posted by <Link to={`/profile/${post.author.username}`}>{post.author.username}</Link> {dateFormatted}
             </p>
 
-            <div className="body-content">{post.body}</div>
+            <div className="body-content">
+                <ReactMarkdown
+                    children={post.body}
+                    rehypePlugins={[[rehypeSanitize, { tagNames: allowedElements }]]}
+                />
+            </div>
         </Page>
     )
 }
