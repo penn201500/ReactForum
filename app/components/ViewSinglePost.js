@@ -5,6 +5,7 @@ import { useParams, Link } from "react-router-dom"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import ReactMarkdown from "react-markdown"
 import rehypeSanitize from "rehype-sanitize"
+import { Tooltip } from "react-tooltip"
 
 function ViewSinglePost() {
     const [isLoading, setIsLoading] = useState(true)
@@ -47,14 +48,24 @@ function ViewSinglePost() {
                 <span className="pt-2">
                     <a
                         href="#"
-                        className="text-primary mr-2"
-                        title="Edit">
+                        data-tooltip-content="Edit"
+                        data-tooltip-id="edit"
+                        className="text-primary mr-2">
                         <i className="fas fa-edit"></i>
                     </a>
+                    <Tooltip
+                        id="edit"
+                        className="custom-tooltip"
+                    />{" "}
                     <a
-                        className="delete-post-button text-danger"
-                        title="Delete">
+                        data-tooltip-content="Delete"
+                        data-tooltip-id="delete"
+                        className="delete-post-button text-danger">
                         <i className="fas fa-trash"></i>
+                        <Tooltip
+                            id="delete"
+                            className="custom-tooltip"
+                        />
                     </a>
                 </span>
             </div>
