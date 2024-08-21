@@ -65,7 +65,9 @@ function UpdatePost() {
                     draft.body.message = "You must provide body content."
                 }
                 return
-
+            case "notFound":
+                draft.notFound = true
+                return
             default:
                 return
         }
@@ -78,7 +80,11 @@ function UpdatePost() {
         async function fetchPost() {
             try {
                 const response = await Axios.get(`/post/${state.id}`, { cancelToken: ourRequest.token })
-                dispatch({ type: "fetchComplete", value: response.data })
+                if (response.data) {
+                    dispatch({ type: "fetchComplete", value: response.data })
+                } else {
+                    dispatch({ type: "notFound" })
+                }
             } catch (error) {
                 console.log("There was a problem." + error)
             }
@@ -110,6 +116,18 @@ function UpdatePost() {
         }
     }, [state.sendCount])
 
+    if (state.notFound) {
+        return (
+            <Page title="Not Found">
+                <div className="text-center">
+                    <h2>Whoops!</h2>
+                    <p className="lead text-muted">We cannot find that post.</p>
+                    <Link to="/">Back to Home</Link>
+                </div>
+            </Page>
+        )
+    }
+
     if (state.isFetching) {
         return (
             <Page title="...">
@@ -127,7 +145,11 @@ function UpdatePost() {
 
     return (
         <Page title="Edit Post">
-            <Link className="small font-weight-bold" to={`/post/${state.id}`}>Back to post permalink</Link>
+            <Link
+                className="small font-weight-bold"
+                to={`/post/${state.id}`}>
+                Back to post permalink
+            </Link>
             <form onSubmit={submitHandler}>
                 <div className="form-group">
                     <label
