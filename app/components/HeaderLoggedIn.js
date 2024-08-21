@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import DispatchContext from "../DispatchContext"
 import StateContext from "../StateContext"
+import { Tooltip } from "react-tooltip"
 
 function HeaderLoggedIn() {
     const appDispatch = useContext(DispatchContext)
@@ -18,11 +19,18 @@ function HeaderLoggedIn() {
     return (
         <div className="flex-row my-3 my-md-0">
             <a
+                data-tooltip-id="search"
+                data-tooltip-content="Search"
                 onClick={handleSearch}
                 href="#"
                 className="text-white mr-2 header-search-icon">
                 <i className="fas fa-search"></i>
             </a>
+            <Tooltip
+                place="bottom"
+                id="search"
+                className="custom-tooltip"
+            />
             <span className="mr-2 header-chat-icon text-white">
                 <i className="fas fa-comment"></i>
                 <span className="chat-count-badge text-white"> </span>
