@@ -17,6 +17,7 @@ import DispatchContext from "./DispatchContext"
 import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"
 import NotFound from "./components/NotFound"
+import Search from "./components/Search"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -30,12 +31,13 @@ function Main() {
             token: localStorage.getItem("appToken") || "",
             username: localStorage.getItem("appUser") || "",
         },
+        isSearchOpen: false,
     }
     function appReducer(draft, action) {
         switch (action.type) {
             case "login":
                 draft.loggedIn = true
-                draft.user = action.user  // update the user on login
+                draft.user = action.user // update the user on login
                 return
             case "logout":
                 draft.loggedIn = false
@@ -43,6 +45,12 @@ function Main() {
                 return
             case "flashMessages":
                 draft.flashMessages.push(action.value)
+                return
+            case "openSearch":
+                draft.isSearchOpen = true
+                return
+            case "closeSearch":
+                draft.isSearchOpen = false
                 return
         }
     }
@@ -99,6 +107,7 @@ function Main() {
                         />
                     </Routes>
                     <Footer />
+                    {state.isSearchOpen && <Search />}
                 </BrowserRouter>
             </DispatchContext.Provider>
         </StateContext.Provider>

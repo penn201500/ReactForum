@@ -11,9 +11,14 @@ function HeaderLoggedIn() {
         appDispatch({ type: "logout" })
         navigate("/")
     }
+    function handleSearch(e) {
+        e.preventDefault()
+        appDispatch({ type: "openSearch" })
+    }
     return (
         <div className="flex-row my-3 my-md-0">
             <a
+                onClick={handleSearch}
                 href="#"
                 className="text-white mr-2 header-search-icon">
                 <i className="fas fa-search"></i>
