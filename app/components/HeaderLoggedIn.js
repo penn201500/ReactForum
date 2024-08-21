@@ -44,6 +44,8 @@ function HeaderLoggedIn() {
                 className="custom-tooltip"
             />
             <Link
+                data-tooltip-id="profile"
+                data-tooltip-content="My Profile"
                 to={`profile/${appState.user.username}`}
                 className="mr-2">
                 <img
@@ -51,6 +53,11 @@ function HeaderLoggedIn() {
                     src="https://www.gravatar.com/avatar"
                 />
             </Link>
+            <Tooltip
+                place="bottom"
+                id="profile"
+                className="custom-tooltip"
+            />
             <Link
                 className="btn btn-sm btn-success mr-2"
                 to="/create-post">
