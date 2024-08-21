@@ -16,6 +16,7 @@ import StateContext from "./StateContext"
 import DispatchContext from "./DispatchContext"
 import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"
+import NotFound from "./components/NotFound"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -90,6 +91,10 @@ function Main() {
                         <Route
                             path="/post/:id/edit"
                             element={<EditPost />}
+                        />
+                        <Route
+                            path="*"
+                            element={<NotFound />}
                         />
                     </Routes>
                     <Footer />

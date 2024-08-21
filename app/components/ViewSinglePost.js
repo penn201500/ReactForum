@@ -6,6 +6,7 @@ import LoadingDotsIcon from "./LoadingDotsIcon"
 import ReactMarkdown from "react-markdown"
 import rehypeSanitize from "rehype-sanitize"
 import { Tooltip } from "react-tooltip"
+import NotFound from "./NotFound"
 
 function ViewSinglePost() {
     const [isLoading, setIsLoading] = useState(true)
@@ -28,6 +29,10 @@ function ViewSinglePost() {
             cancelToken.cancel()
         }
     }, [])
+
+    if (!isLoading && !post) {
+        return <NotFound />
+    }
 
     if (isLoading) {
         return (
