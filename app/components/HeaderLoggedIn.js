@@ -1,13 +1,15 @@
 import React, { useEffect, useContext } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import DispatchContext from "../DispatchContext"
 import StateContext from "../StateContext"
 
 function HeaderLoggedIn() {
     const appDispatch = useContext(DispatchContext)
     const appState = useContext(StateContext)
+    const navigate = useNavigate()
     function handleLogout() {
         appDispatch({ type: "logout" })
+        navigate("/")
     }
     return (
         <div className="flex-row my-3 my-md-0">
