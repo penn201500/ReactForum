@@ -35,10 +35,11 @@ function Main() {
         switch (action.type) {
             case "login":
                 draft.loggedIn = true
-                draft.user = action.user
+                draft.user = action.user  // update the user on login
                 return
             case "logout":
                 draft.loggedIn = false
+                draft.user = {} // clear the user on logout
                 return
             case "flashMessages":
                 draft.flashMessages.push(action.value)
