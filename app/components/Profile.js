@@ -18,6 +18,7 @@ function Profile() {
         async function fetchData() {
             try {
                 const response = await Axios.post(`/profile/${username}`, { token: appState.user.token })
+                console.log(response.data);
                 setProfileData(response.data)
             } catch (error) {
                 console.log("There was a problem." + error)

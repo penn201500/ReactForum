@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react"
 import { useImmerReducer } from "use-immer"
 import Page from "./Page"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import Axios from "axios"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import StateContext from "../StateContext"
@@ -11,6 +11,7 @@ import NotFound from "./NotFound"
 function UpdatePost() {
     const appState = useContext(StateContext)
     const appDispatch = useContext(DispatchContext)
+    const navigate = useNavigate()
     const originalState = {
         title: {
             value: "",
@@ -83,6 +84,10 @@ function UpdatePost() {
                 const response = await Axios.get(`/post/${state.id}`, { cancelToken: ourRequest.token })
                 if (response.data) {
                     dispatch({ type: "fetchComplete", value: response.data })
+                    if (appState.user.username != response.data.author.username) {
+                        appDispatch({ type: "flashMessages", value: "You do not have permission to edit that post." })
+                        navigate("/")
+                    }
                 } else {
                     dispatch({ type: "notFound" })
                 }
