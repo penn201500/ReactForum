@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useImmerReducer } from "use-immer"
 import Axios from "axios"
+import { CSSTransition } from "react-transition-group"
 import Header from "./components/Header"
 import HomeGuest from "./components/HomeGuest"
 import Footer from "./components/Footer"
@@ -108,6 +109,9 @@ function Main() {
                     </Routes>
                     <Footer />
                     {state.isSearchOpen && <Search />}
+                    <CSSTransition timeout={330} in={state.isSearchOpen} classNames="search-overlay" unmountOnExit>
+                        <Search />
+                    </CSSTransition>
                 </BrowserRouter>
             </DispatchContext.Provider>
         </StateContext.Provider>
