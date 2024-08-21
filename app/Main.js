@@ -27,15 +27,15 @@ function Main() {
         loggedIn: Boolean(localStorage.getItem("appToken")),
         flashMessages: [],
         user: {
-            token: localStorage.getItem("appToken"),
-            username: localStorage.getItem("appUser"),
+            token: localStorage.getItem("appToken") || "",
+            username: localStorage.getItem("appUser") || "",
         },
     }
     function appReducer(draft, action) {
         switch (action.type) {
             case "login":
                 draft.loggedIn = true
-                draft.user = action.data
+                draft.user = action.user
                 return
             case "logout":
                 draft.loggedIn = false
