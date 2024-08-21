@@ -1,7 +1,7 @@
 import React, { useEffect, useContext } from "react"
 import { useImmerReducer } from "use-immer"
 import Page from "./Page"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import Axios from "axios"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import StateContext from "../StateContext"
@@ -127,6 +127,7 @@ function UpdatePost() {
 
     return (
         <Page title="Edit Post">
+            <Link className="small font-weight-bold" to={`/post/${state.id}`}>Back to post permalink</Link>
             <form onSubmit={submitHandler}>
                 <div className="form-group">
                     <label
