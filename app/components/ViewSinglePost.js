@@ -1,19 +1,22 @@
 import React, { useEffect, useState, useContext } from "react"
 import Page from "./Page"
 import Axios from "axios"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import LoadingDotsIcon from "./LoadingDotsIcon"
 import ReactMarkdown from "react-markdown"
 import rehypeSanitize from "rehype-sanitize"
 import { Tooltip } from "react-tooltip"
 import NotFound from "./NotFound"
-import StateContext from '../StateContext';
+import StateContext from "../StateContext"
+import DispatchContext from "../DispatchContext"
 
 function ViewSinglePost() {
     const [isLoading, setIsLoading] = useState(true)
     const [post, setPost] = useState()
     const { id } = useParams()
     const appState = useContext(StateContext)
+    const appDispatch = useContext(DispatchContext)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const cancelToken = Axios.CancelToken.source()
@@ -55,6 +58,21 @@ function ViewSinglePost() {
         return false
     }
 
+    async function deleteHandler() {
+        const areYouSure = window.confirm("Do you really want to delete this post?")
+        if (areYouSure) {
+            try {
+                const response = await Axios.delete(`/post/${id}`, { data: { token: appState.user.token } })
+                if (response.data === "Success") {
+                    appDispatch({ type: "flashMessages", value: "Post was successfully deleted." })
+                    navigate(`/profile/${appState.user.username}`)
+                }
+            } catch (error) {
+                console.log("There was a problem." + error)
+            }
+        }
+    }
+
     return (
         <Page title={post.title}>
             <div className="d-flex justify-content-between">
@@ -73,6 +91,7 @@ function ViewSinglePost() {
                             className="custom-tooltip"
                         />{" "}
                         <a
+                            onClick={deleteHandler}
                             data-tooltip-content="Delete"
                             data-tooltip-id="delete"
                             className="delete-post-button text-danger">
