@@ -31,10 +31,18 @@ function HeaderLoggedIn() {
                 id="search"
                 className="custom-tooltip"
             />
-            <span className="mr-2 header-chat-icon text-white">
+            <span
+                data-tooltip-id="chat"
+                data-tooltip-content="Chat"
+                className="mr-2 header-chat-icon text-white">
                 <i className="fas fa-comment"></i>
                 <span className="chat-count-badge text-white"> </span>
             </span>
+            <Tooltip
+                place="bottom"
+                id="chat"
+                className="custom-tooltip"
+            />
             <Link
                 to={`profile/${appState.user.username}`}
                 className="mr-2">
