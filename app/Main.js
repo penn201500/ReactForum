@@ -108,7 +108,6 @@ function Main() {
                         />
                     </Routes>
                     <Footer />
-                    {state.isSearchOpen && <Search />}
                     <CSSTransition timeout={330} in={state.isSearchOpen} classNames="search-overlay" unmountOnExit>
                         <Search />
                     </CSSTransition>
