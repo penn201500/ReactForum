@@ -2,6 +2,7 @@ import React, { useEffect, useContext, forwardRef } from "react"
 import DispatchContext from "../DispatchContext"
 import { useImmer } from "use-immer"
 import Axios from "axios"
+import { Link } from "react-router-dom"
 
 const Search = forwardRef((props, ref) => {
     const appDispatch = useContext(DispatchContext)
@@ -102,38 +103,28 @@ const Search = forwardRef((props, ref) => {
                         <div className={"live-search-results " + (state.show === "results" ? "live-search-results--visible" : "")}>
                             <div className="list-group shadow-sm">
                                 <div className="list-group-item active">
-                                    <strong>Search Results</strong> (3 items found)
+                                    <strong>Search Results</strong> ({state.results.length} {state.results.length > 1 ? "items" : "item"} found)
                                 </div>
-                                <a
-                                    href="#"
-                                    className="list-group-item list-group-item-action">
-                                    <img
-                                        className="avatar-tiny"
-                                        src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128"
-                                    />{" "}
-                                    <strong>Example Post #1</strong>
-                                    <span className="text-muted small">by brad on 2/10/2020 </span>
-                                </a>
-                                <a
-                                    href="#"
-                                    className="list-group-item list-group-item-action">
-                                    <img
-                                        className="avatar-tiny"
-                                        src="https://gravatar.com/avatar/b9216295c1e3931655bae6574ac0e4c2?s=128"
-                                    />{" "}
-                                    <strong>Example Post #2</strong>
-                                    <span className="text-muted small">by barksalot on 2/10/2020 </span>
-                                </a>
-                                <a
-                                    href="#"
-                                    className="list-group-item list-group-item-action">
-                                    <img
-                                        className="avatar-tiny"
-                                        src="https://gravatar.com/avatar/b9408a09298632b5151200f3449434ef?s=128"
-                                    />{" "}
-                                    <strong>Example Post #3</strong>
-                                    <span className="text-muted small">by brad on 2/10/2020 </span>
-                                </a>
+                                {state.results.map(post => {
+                                    const date = new Date(post.createdDate)
+                                    const dateFormatted = `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+                                    return (
+                                        <Link
+                                            onClick={() => appDispatch({ type: "closeSearch" })}
+                                            key={post._id}
+                                            to={`/post/${post._id}`}
+                                            className="list-group-item list-group-item-action">
+                                            <img
+                                                className="avatar-tiny"
+                                                src="https://gravatar.com/avatar?s=128"
+                                            />{" "}
+                                            <strong>{post.title}</strong>{" "}
+                                            <span className="text-muted small">
+                                                by {post.author.username} on {dateFormatted}{" "}
+                                            </span>
+                                        </Link>
+                                    )
+                                })}
                             </div>
                         </div>
                     </div>
