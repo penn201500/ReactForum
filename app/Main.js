@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useImmerReducer } from "use-immer"
@@ -25,6 +25,7 @@ const root = createRoot(document.querySelector("#app"))
 Axios.defaults.baseURL = "http://localhost:8080"
 
 function Main() {
+    const searchRef = useRef(null)
     const initialState = {
         loggedIn: Boolean(localStorage.getItem("appToken")),
         flashMessages: [],
@@ -108,8 +109,13 @@ function Main() {
                         />
                     </Routes>
                     <Footer />
-                    <CSSTransition timeout={330} in={state.isSearchOpen} classNames="search-overlay" unmountOnExit>
-                        <Search />
+                    <CSSTransition
+                        nodeRef={searchRef}
+                        timeout={330}
+                        in={state.isSearchOpen}
+                        classNames="search-overlay"
+                        unmountOnExit>
+                        <Search ref={searchRef}/>
                     </CSSTransition>
                 </BrowserRouter>
             </DispatchContext.Provider>
