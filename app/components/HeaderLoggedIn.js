@@ -31,6 +31,7 @@ function HeaderLoggedIn() {
                 id="search"
                 className="custom-tooltip"
             />
+            {" "}
             <span
                 data-tooltip-id="chat"
                 data-tooltip-content="Chat"
@@ -43,6 +44,7 @@ function HeaderLoggedIn() {
                 id="chat"
                 className="custom-tooltip"
             />
+            {" "}
             <Link
                 data-tooltip-id="profile"
                 data-tooltip-content="My Profile"
@@ -58,11 +60,13 @@ function HeaderLoggedIn() {
                 id="profile"
                 className="custom-tooltip"
             />
+            {" "}
             <Link
                 className="btn btn-sm btn-success mr-2"
                 to="/create-post">
                 Create Post
             </Link>
+            {" "}
             <button
                 onClick={handleLogout}
                 className="btn btn-sm btn-secondary">
