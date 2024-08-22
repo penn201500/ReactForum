@@ -33,7 +33,7 @@ function ViewSinglePost() {
         return () => {
             cancelToken.cancel()
         }
-    }, [])
+    }, [id])
 
     if (!isLoading && !post) {
         return <NotFound />
