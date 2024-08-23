@@ -30,9 +30,9 @@ function HeaderLoggedIn() {
                 place="bottom"
                 id="search"
                 className="custom-tooltip"
-            />
-            {" "}
+            />{" "}
             <span
+                onClick={() => appDispatch({ type: "toggleChat" })}
                 data-tooltip-id="chat"
                 data-tooltip-content="Chat"
                 className="mr-2 header-chat-icon text-white">
@@ -43,8 +43,7 @@ function HeaderLoggedIn() {
                 place="bottom"
                 id="chat"
                 className="custom-tooltip"
-            />
-            {" "}
+            />{" "}
             <Link
                 data-tooltip-id="profile"
                 data-tooltip-content="My Profile"
@@ -59,14 +58,12 @@ function HeaderLoggedIn() {
                 place="bottom"
                 id="profile"
                 className="custom-tooltip"
-            />
-            {" "}
+            />{" "}
             <Link
                 className="btn btn-sm btn-success mr-2"
                 to="/create-post">
                 Create Post
-            </Link>
-            {" "}
+            </Link>{" "}
             <button
                 onClick={handleLogout}
                 className="btn btn-sm btn-secondary">

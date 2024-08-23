@@ -19,6 +19,7 @@ import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"
 import NotFound from "./components/NotFound"
 import Search from "./components/Search"
+import Chat from "./components/Chat"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -34,6 +35,7 @@ function Main() {
             username: localStorage.getItem("appUser") || "",
         },
         isSearchOpen: false,
+        isChatOpen: false,
     }
     function appReducer(draft, action) {
         switch (action.type) {
@@ -53,6 +55,12 @@ function Main() {
                 return
             case "closeSearch":
                 draft.isSearchOpen = false
+                return
+            case "toggleChat":
+                draft.isChatOpen = !draft.isChatOpen
+                return
+            case "closeChat":
+                draft.isChatOpen = false
                 return
         }
     }
@@ -108,6 +116,7 @@ function Main() {
                             element={<NotFound />}
                         />
                     </Routes>
+                    <Chat />
                     <Footer />
                     <CSSTransition
                         nodeRef={searchRef}
@@ -115,7 +124,7 @@ function Main() {
                         in={state.isSearchOpen}
                         classNames="search-overlay"
                         unmountOnExit>
-                        <Search ref={searchRef}/>
+                        <Search ref={searchRef} />
                     </CSSTransition>
                 </BrowserRouter>
             </DispatchContext.Provider>
