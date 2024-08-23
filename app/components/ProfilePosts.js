@@ -13,8 +13,12 @@ function ProfilePosts() {
         async function fetchPosts() {
             try {
                 const response = await Axios.get(`/profile/${username}/posts`, { cancelToken: cancelToken.token })
-                setPosts(response.data)
-                setIsLoading(false)
+                if (response.data) {
+                    setPosts(response.data)
+                    setIsLoading(false)
+                } else {
+                    throw new Error(`The url profile/${username}/posts is invalid.`)
+                }
             } catch (error) {
                 console.log("There was a problem." + error)
             }

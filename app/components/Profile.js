@@ -6,7 +6,7 @@ import StateContext from "../StateContext"
 import ProfilePosts from "./ProfilePosts"
 import { useImmer } from "use-immer"
 import ProfileFollower from "./ProfileFollower"
-import ProfileFollowing from './ProfileFollowing';
+import ProfileFollowing from "./ProfileFollowing"
 
 function Profile() {
     const { username } = useParams()
@@ -27,9 +27,13 @@ function Profile() {
         async function fetchData() {
             try {
                 const response = await Axios.post(`/profile/${username}`, { token: appState.user.token })
-                setState(draft => {
-                    draft.profileData = response.data
-                })
+                if (response.data) {
+                    setState(draft => {
+                        draft.profileData = response.data
+                    })
+                } else {
+                    throw new Error(`The url profile/${username} is invalid.`)
+                }
             } catch (error) {
                 console.log("There was a problem." + error)
             }
