@@ -2,6 +2,10 @@ import React, { useEffect, useContext, useRef } from "react"
 import StateContext from "../StateContext"
 import DispatchContext from "../DispatchContext"
 import { useImmer } from "use-immer"
+import io from "socket.io-client"
+import { Link } from "react-router-dom"
+
+const socket = io("http://localhost:8080")
 
 function Chat() {
     const appState = useContext(StateContext)
@@ -18,6 +22,14 @@ function Chat() {
         }
     }, [appState.isChatOpen])
 
+    useEffect(() => {
+        socket.on("chatFromServer", message => {
+            setState(draft => {
+                draft.chatMessages.push(message)
+            })
+        })
+    }, [])
+
     function handleFieldChange(e) {
         e.preventDefault()
         setState(draft => {
@@ -27,6 +39,8 @@ function Chat() {
 
     function handleSubmit(e) {
         e.preventDefault()
+
+        socket.emit("chatFromBrowser", { message: state.fieldValue, token: appState.user.token })
 
         setState(draft => {
             draft.chatMessages.push({ message: draft.fieldValue, username: appState.user.username, avatar: appState.user.avatar })
@@ -52,7 +66,8 @@ function Chat() {
                 {state.chatMessages.map((message, index) => {
                     if (message.username === appState.user.username) {
                         return (
-                            <div className="chat-self">
+                            <div
+                                className="chat-self">
                                 <div className="chat-message">
                                     <div className="chat-message-inner">{message.message}</div>
                                 </div>
@@ -64,19 +79,20 @@ function Chat() {
                         )
                     }
                     return (
-                        <div className="chat-other">
-                            <a href="#">
+                        <div
+                            className="chat-other">
+                            <Link to={`/profile/${message.username}`}>
                                 <img
                                     className="avatar-tiny"
-                                    src="https://gravatar.com/avatar/b9216295c1e3931655bae6574ac0e4c2?s=128"
+                                    src={message.avatar}
                                 />
-                            </a>
+                            </Link>
                             <div className="chat-message">
                                 <div className="chat-message-inner">
-                                    <a href="#">
-                                        <strong>barksalot:</strong>
-                                    </a>
-                                    Hey, I am good, how about you?
+                                    <Link to={`/profile/${message.username}`}>
+                                        <strong>{message.username}: </strong>
+                                    </Link>
+                                    {message.message}
                                 </div>
                             </div>
                         </div>
