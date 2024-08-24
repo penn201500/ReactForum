@@ -11,6 +11,7 @@ function Chat() {
     const appState = useContext(StateContext)
     const appDispatch = useContext(DispatchContext)
     const chatField = useRef(null)
+    const chatLog = useRef(null)
     const [state, setState] = useImmer({
         fieldValue: "",
         chatMessages: [],
@@ -29,6 +30,10 @@ function Chat() {
             })
         })
     }, [])
+
+    useEffect(() => {
+        chatLog.current.scrollTop = chatLog.current.scrollHeight
+    }, [state.chatMessages])
 
     function handleFieldChange(e) {
         e.preventDefault()
@@ -62,7 +67,8 @@ function Chat() {
             </div>
             <div
                 id="chat"
-                className="chat-log">
+                className="chat-log"
+                ref={chatLog}>
                 {state.chatMessages.map((message, index) => {
                     if (message.username === appState.user.username) {
                         return (
