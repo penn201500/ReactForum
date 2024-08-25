@@ -29,6 +29,7 @@ function HomeGuest() {
     }
 
     const [state, dispatch] = useImmerReducer(ourReducer, initialState)
+
     useEffect(() => {
         if (state.username.value) {
             const delay = setTimeout(() => {
@@ -37,6 +38,51 @@ function HomeGuest() {
             return () => clearTimeout(delay)
         }
     }, [state.username.value])
+
+    useEffect(() => {
+        if (state.email.value) {
+            const delay = setTimeout(() => {
+                dispatch({ type: "emailAfterDelay" })
+            }, 800)
+            return () => clearTimeout(delay)
+        }
+    }, [state.email.value])
+
+    useEffect(() => {
+        if (state.username.checkCount) {
+            const ourRequest = Axios.CancelToken.source()
+            async function fetchResults() {
+                try {
+                    const response = await Axios.post("/doesUsernameExist", { username: state.username.value }, { cancelToken: ourRequest.token })
+                    dispatch({ type: "usernameUniqueResults", value: response.data })
+                } catch (error) {
+                    console.log("There was a problem." + error)
+                }
+            }
+            fetchResults()
+            return () => {
+                ourRequest.cancel()
+            }
+        }
+    }, [state.username.checkCount])
+
+    useEffect(() => {
+        if (state.email.checkCount) {
+            const ourRequest = Axios.CancelToken.source()
+            async function fetchResults() {
+                try {
+                    const response = await Axios.post("/doesEmailExist", { email: state.email.value }, { cancelToken: ourRequest.token })
+                    dispatch({ type: "emailUniqueResults", value: response.data })
+                } catch (error) {
+                    console.log("There was a problem." + error)
+                }
+            }
+            fetchResults()
+            return () => {
+                ourRequest.cancel()
+            }
+        }
+    }, [state.email.checkCount])
 
     function ourReducer(draft, action) {
         switch (action.type) {
@@ -57,18 +103,40 @@ function HomeGuest() {
                     draft.username.hasError = true
                     draft.username.message = "Username must be at least 3 characters."
                 }
+                if (!draft.hasError) {
+                    draft.username.checkCount++
+                }
                 return
             case "usernameUniqueResults":
+                if (action.value) {
+                    draft.username.hasError = true
+                    draft.username.isUnique = false
+                    draft.username.message = "That username is already taken."
+                } else {
+                    draft.username.isUnique = true
+                }
                 return
             case "emailImmediately":
                 draft.email.hasError = false
                 draft.email.value = action.value
                 return
             case "emailAfterDelay":
+                if (!/^\S+@\S+$/.test(draft.email.value)) {
+                    draft.email.hasError = true
+                    draft.email.message = "You must provide a valid email address."
+                }
+                if (!draft.email.hasError) {
+                    draft.email.checkCount++
+                }
                 return
             case "emailUniqueResults":
+                if (action.value) {
+                    draft.email.hasError = true
+                    draft.email.isUnique = false
+                    draft.email.message = "That email is already being used."
+                } else [(draft.email.isUnique = true)]
                 return
-            case "passImmediately":
+            case "passwdImmediately":
                 draft.password.hasError = false
                 draft.password.value = action.value
                 return
@@ -133,6 +201,13 @@ function HomeGuest() {
                                 placeholder="you@example.com"
                                 autoComplete="off"
                             />
+                            <CSSTransition
+                                in={state.email.hasError}
+                                timeout={330}
+                                classNames="liveValidateMessage"
+                                unmountOnExit>
+                                <div className="alert alert-danger small liveValidateMessage">{state.email.message}</div>
+                            </CSSTransition>
                         </div>
                         <div className="form-group">
                             <label
@@ -141,7 +216,7 @@ function HomeGuest() {
                                 <small>Password</small>
                             </label>
                             <input
-                                onChange={e => dispatch({ type: "passImmediately", value: e.target.value })}
+                                onChange={e => dispatch({ type: "passwdImmediately", value: e.target.value })}
                                 id="password-register"
                                 name="password"
                                 className="form-control"
