@@ -9,9 +9,6 @@ function HeaderLoggedIn() {
     const appState = useContext(StateContext)
     const navigate = useNavigate()
 
-    console.log("appState:", appState)
-    console.log("appState.user:", appState.user)
-
     function handleLogout() {
         appDispatch({ type: "logout" })
         appDispatch({ type: "flashMessages", value: "You have successfully logged out." })
@@ -58,7 +55,6 @@ function HeaderLoggedIn() {
                     className="small-header-avatar"
                     src="https://www.gravatar.com/avatar"
                 />
-                {console.log(appState.user)}
             </Link>
             <Tooltip
                 place="bottom"
