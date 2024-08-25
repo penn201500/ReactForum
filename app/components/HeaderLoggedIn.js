@@ -14,6 +14,7 @@ function HeaderLoggedIn() {
 
     function handleLogout() {
         appDispatch({ type: "logout" })
+        appDispatch({ type: "flashMessages", value: "You have successfully logged out." })
         navigate("/")
     }
     function handleSearch(e) {

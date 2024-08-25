@@ -13,7 +13,9 @@ function HeaderLoggedOut() {
             Axios.post("/login", { username, password }).then(response => {
                 if (response.data) {
                     appDispatch({ type: "login", user: response.data })
+                    appDispatch({ type: "flashMessages", value: "You have successfully logged in." })
                 } else {
+                    appDispatch({ type: "flashMessages", value: "Invalid username / password." })
                     console.log("Incorrect username / password.")
                 }
             })
