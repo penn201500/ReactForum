@@ -49,6 +49,15 @@ function HomeGuest() {
     }, [state.email.value])
 
     useEffect(() => {
+        if (state.password.value) {
+            const delay = setTimeout(() => {
+                dispatch({ type: "passwdAfterDelay" })
+            }, 800)
+            return () => clearTimeout(delay)
+        }
+    }, [state.password.value])
+
+    useEffect(() => {
         if (state.username.checkCount) {
             const ourRequest = Axios.CancelToken.source()
             async function fetchResults() {
@@ -139,8 +148,16 @@ function HomeGuest() {
             case "passwdImmediately":
                 draft.password.hasError = false
                 draft.password.value = action.value
+                if (draft.password.value.length > 50) {
+                    draft.password.hasError = true
+                    draft.password.message = "Password cannot exceed 50 characters."
+                }
                 return
-            case "passAfterDelay":
+            case "passwdAfterDelay":
+                if (draft.password.value.length < 12) {
+                    draft.password.hasError = true
+                    draft.password.message = "Password must be at least 12 characters."
+                }
                 return
             case "submitForm":
                 return
@@ -223,6 +240,13 @@ function HomeGuest() {
                                 type="password"
                                 placeholder="Create a password"
                             />
+                            <CSSTransition
+                                in={state.password.hasError}
+                                timeout={330}
+                                classNames="liveValidateMessage"
+                                unmountOnExit>
+                                <div className="alert alert-danger small liveValidateMessage">{state.password.message}</div>
+                            </CSSTransition>
                         </div>
                         <button
                             type="submit"
