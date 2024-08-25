@@ -93,6 +93,23 @@ function HomeGuest() {
         }
     }, [state.email.checkCount])
 
+    useEffect(() => {
+        if (state.submitCount) {
+            const ourRequest = Axios.CancelToken.source()
+            async function fetchResults() {
+                try {
+                    const response = await Axios.post("/register", { username: state.username.value, email: state.email.value, password: state.password.value }, { cancelToken: ourRequest.token })
+                } catch (error) {
+                    console.log("There was a problem." + error)
+                }
+            }
+            fetchResults()
+            return () => {
+                ourRequest.cancel()
+        }
+    }
+    }, [state.submitCount])
+
     function ourReducer(draft, action) {
         switch (action.type) {
             case "usernameImmediately":
@@ -112,7 +129,7 @@ function HomeGuest() {
                     draft.username.hasError = true
                     draft.username.message = "Username must be at least 3 characters."
                 }
-                if (!draft.hasError) {
+                if (!draft.hasError && !action.noRequest) {
                     draft.username.checkCount++
                 }
                 return
@@ -134,7 +151,7 @@ function HomeGuest() {
                     draft.email.hasError = true
                     draft.email.message = "You must provide a valid email address."
                 }
-                if (!draft.email.hasError) {
+                if (!draft.email.hasError && !action.noRequest) {
                     draft.email.checkCount++
                 }
                 return
@@ -160,6 +177,9 @@ function HomeGuest() {
                 }
                 return
             case "submitForm":
+                if (!draft.username.hasError && draft.username.isUnique && !draft.email.hasError && draft.email.isUnique && !draft.password.hasError) {
+                    draft.submitCount++
+                }
                 return
             default:
                 break
@@ -168,6 +188,13 @@ function HomeGuest() {
 
     function handleSubmit(e) {
         e.preventDefault()
+        dispatch({ type: "usernameImmediately", value: state.username.value })
+        dispatch({ type: "usernameAfterDelay", value: state.username.value, noRequest: true })
+        dispatch({ type: "emailImmediately", value: state.email.value })
+        dispatch({ type: "emailAfterDelay", value: state.email.value, noRequest: true })
+        dispatch({ type: "passwdImmediately", value: state.password.value })
+        dispatch({ type: "passwdAfterDelay", value: state.password.value })
+        dispatch({ type: "submitForm" })
     }
     return (
         <Page
