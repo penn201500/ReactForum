@@ -18,8 +18,8 @@ import DispatchContext from "./DispatchContext"
 import Profile from "./components/Profile"
 import EditPost from "./components/EditPost"
 import NotFound from "./components/NotFound"
-import Search from "./components/Search"
-import Chat from "./components/Chat"
+const Search = React.lazy(() => import("./components/Search"))
+const Chat = React.lazy(() => import("./components/Chat"))
 import LoadingDotsIcon from "./components/LoadingDotsIcon"
 
 const root = createRoot(document.querySelector("#app"))
@@ -149,7 +149,7 @@ function Main() {
                             />
                         </Routes>
                     </Suspense>
-                    <Chat />
+                    <Suspense fallback="">{state.loggedIn && <Chat />}</Suspense>
                     <Footer />
                     <CSSTransition
                         nodeRef={searchRef}
@@ -157,7 +157,11 @@ function Main() {
                         in={state.isSearchOpen}
                         classNames="search-overlay"
                         unmountOnExit>
-                        <Search ref={searchRef} />
+                        <div className="search-overlay">
+                            <Suspense fallback="">
+                                <Search ref={searchRef} />
+                            </Suspense>
+                        </div>
                     </CSSTransition>
                 </BrowserRouter>
             </DispatchContext.Provider>
