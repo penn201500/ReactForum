@@ -24,7 +24,7 @@ import LoadingDotsIcon from "./components/LoadingDotsIcon"
 
 const root = createRoot(document.querySelector("#app"))
 
-Axios.defaults.baseURL = "http://localhost:8080"
+Axios.defaults.baseURL = process.env.BACKENDURL || ""
 
 function Main() {
     const searchRef = useRef(null)
