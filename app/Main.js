@@ -47,6 +47,7 @@ function Main() {
                 return
             case "logout":
                 draft.loggedIn = false
+                draft.isChatOpen = false
                 draft.user = {} // clear the user on logout
                 return
             case "flashMessages":
