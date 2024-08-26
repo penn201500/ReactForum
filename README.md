@@ -12,7 +12,7 @@
 1. **User Authentication**: Secure login and registration for users.
 2. **Profile Management**: Edit and manage user profiles, including following and followers.
 3. **Create & Update Posts**: Fully featured editor for creating and updating forum posts.
-4. **Socket Chat**: Real-time communication with WebSocket integration.
+4. **Socket Chat**: Real-time communication powered by socket.io.
 5. **Search Functionality**: Quickly find users and posts by keywords.
 6. **Follower/Following System**: Manage your social circle by following other users.
 
