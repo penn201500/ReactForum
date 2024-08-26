@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import React, { useEffect, useRef, Suspense } from "react"
 import { createRoot } from "react-dom/client"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { useImmerReducer } from "use-immer"
@@ -10,8 +10,8 @@ import Footer from "./components/Footer"
 import About from "./components/About"
 import Terms from "./components/Terms"
 import Home from "./components/Home"
-import CreatePost from "./components/CreatePost"
-import ViewSinglePost from "./components/ViewSinglePost"
+const CreatePost = React.lazy(() => import("./components/CreatePost"))
+const ViewSinglePost = React.lazy(() => import("./components/ViewSinglePost"))
 import FlashMessages from "./components/FlashMessages"
 import StateContext from "./StateContext"
 import DispatchContext from "./DispatchContext"
@@ -20,6 +20,7 @@ import EditPost from "./components/EditPost"
 import NotFound from "./components/NotFound"
 import Search from "./components/Search"
 import Chat from "./components/Chat"
+import LoadingDotsIcon from "./components/LoadingDotsIcon"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -112,40 +113,42 @@ function Main() {
                 <BrowserRouter>
                     <FlashMessages messages={state.flashMessages} />
                     <Header />
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={state.loggedIn ? <Home /> : <HomeGuest />}
-                        />
-                        <Route
-                            path="/about-us"
-                            element={<About />}
-                        />
-                        <Route
-                            path="/terms"
-                            element={<Terms />}
-                        />
-                        <Route
-                            path="/create-post"
-                            element={<CreatePost />}
-                        />
-                        <Route
-                            path="/post/:id"
-                            element={<ViewSinglePost />}
-                        />
-                        <Route
-                            path="/profile/:username/*"
-                            element={<Profile />}
-                        />
-                        <Route
-                            path="/post/:id/edit"
-                            element={<EditPost />}
-                        />
-                        <Route
-                            path="*"
-                            element={<NotFound />}
-                        />
-                    </Routes>
+                    <Suspense fallback={LoadingDotsIcon}>
+                        <Routes>
+                            <Route
+                                path="/"
+                                element={state.loggedIn ? <Home /> : <HomeGuest />}
+                            />
+                            <Route
+                                path="/about-us"
+                                element={<About />}
+                            />
+                            <Route
+                                path="/terms"
+                                element={<Terms />}
+                            />
+                            <Route
+                                path="/create-post"
+                                element={<CreatePost />}
+                            />
+                            <Route
+                                path="/post/:id"
+                                element={<ViewSinglePost />}
+                            />
+                            <Route
+                                path="/profile/:username/*"
+                                element={<Profile />}
+                            />
+                            <Route
+                                path="/post/:id/edit"
+                                element={<EditPost />}
+                            />
+                            <Route
+                                path="*"
+                                element={<NotFound />}
+                            />
+                        </Routes>
+                    </Suspense>
                     <Chat />
                     <Footer />
                     <CSSTransition
