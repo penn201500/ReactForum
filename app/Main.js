@@ -33,6 +33,7 @@ function Main() {
         user: {
             token: localStorage.getItem("appToken") || "",
             username: localStorage.getItem("appUser") || "",
+            avatar: localStorage.getItem("avatar") || "",
         },
         isSearchOpen: false,
         isChatOpen: false,
@@ -77,9 +78,11 @@ function Main() {
         if (state.loggedIn) {
             localStorage.setItem("appToken", state.user.token)
             localStorage.setItem("appUser", state.user.username)
+            localStorage.setItem("avatar", state.user.avatar)
         } else {
             localStorage.removeItem("appToken")
             localStorage.removeItem("appUser")
+            localStorage.removeItem("avatar")
         }
     }, [state.loggedIn])
 
