@@ -21,6 +21,7 @@ import NotFound from "./components/NotFound"
 const Search = React.lazy(() => import("./components/Search"))
 const Chat = React.lazy(() => import("./components/Chat"))
 import LoadingDotsIcon from "./components/LoadingDotsIcon"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const root = createRoot(document.querySelector("#app"))
 
