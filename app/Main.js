@@ -21,6 +21,7 @@ import NotFound from "./components/NotFound"
 const Search = React.lazy(() => import("./components/Search"))
 const Chat = React.lazy(() => import("./components/Chat"))
 import LoadingDotsIcon from "./components/LoadingDotsIcon"
+import { SpeedInsights } from "@vercel/speed-insights"
 
 const root = createRoot(document.querySelector("#app"))
 
@@ -110,6 +111,7 @@ function Main() {
     return (
         <StateContext.Provider value={state}>
             <DispatchContext.Provider value={dispatch}>
+                <SpeedInsights />
                 <BrowserRouter>
                     <FlashMessages messages={state.flashMessages} />
                     <Header />
