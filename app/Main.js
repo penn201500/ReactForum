@@ -24,7 +24,7 @@ import LoadingDotsIcon from "./components/LoadingDotsIcon"
 
 const root = createRoot(document.querySelector("#app"))
 
-Axios.defaults.baseURL = process.env.BACKENDURL || ""
+Axios.defaults.baseURL = process.env.BACKENDURL || "https://reactforumbackend.onrender.com"
 
 function Main() {
     const searchRef = useRef(null)

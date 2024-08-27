@@ -24,7 +24,7 @@ function Chat() {
     }, [appState.isChatOpen])
 
     useEffect(() => {
-        socket.current = io(process.env.BACKENDURL)
+        socket.current = io(process.env.BACKENDURL || "https://reactforumbackend.onrender.com")
         socket.current.on("chatFromServer", message => {
             setState(draft => {
                 draft.chatMessages.push(message)
